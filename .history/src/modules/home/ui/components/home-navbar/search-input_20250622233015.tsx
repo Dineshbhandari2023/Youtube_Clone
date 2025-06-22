@@ -1,0 +1,19 @@
+import React from "react";
+
+export const SearchInput = () => {
+  return (
+    <form action="" className="flex w-full max-w-[600px]">
+      <div className="relative w-full">
+        <input
+          type="text"
+          placeholder="Search"
+          className="w-full pl-4 py-2 pr-12 rounded-l-full border focus:outline-none focus:border-blue-500"
+        />
+      </div>
+      <button
+        type="submit"
+        className="px-5 py-2.5 bg-gray-400 border border-l-0 "
+      ></button>
+    </form>
+  );
+};
