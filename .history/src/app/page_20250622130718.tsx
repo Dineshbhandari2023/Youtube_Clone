@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <div className="flex text-center">
         <Image src={Logo} height={40} width={70} alt="logo" />
-        <p className="font-bold text-xl tracking-tight">YouTube</p>
+        <p className="font-bold text-xl">YouTube</p>
       </div>
     </div>
   );
