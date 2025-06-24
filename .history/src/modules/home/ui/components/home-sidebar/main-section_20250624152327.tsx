@@ -3,42 +3,37 @@
 import {
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { HistoryIcon, ListVideoIcon, ThumbsUpIcon } from "lucide-react";
+import { FlameIcon, HomeIcon, PlaySquareIcon } from "lucide-react";
 import Link from "next/link";
-import { useAuth, useClerk } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 
 const items = [
   {
-    title: "History",
-    url: "/playlists/history",
-    icon: HistoryIcon,
+    title: "Home",
+    url: "/",
+    icon: HomeIcon,
+  },
+  {
+    title: "Subscription",
+    url: "/feed/subscriptions",
+    icon: PlaySquareIcon,
     auth: true,
   },
   {
-    title: "Liked Videos",
-    url: "/playlists/liked",
-    icon: ThumbsUpIcon,
-    auth: true,
-  },
-  {
-    title: "All Playlists",
-    url: "/playlists",
-    icon: ListVideoIcon,
-    auth: true,
+    title: "Trending",
+    url: "/feed/trending",
+    icon: FlameIcon,
   },
 ];
 
-export const PersonalSection = () => {
-  const { isSignedIn } = useAuth();
+export const MainSection = () => {
   const clerk = useClerk();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>You</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
@@ -47,12 +42,7 @@ export const PersonalSection = () => {
                 tooltip={item.title}
                 asChild
                 isActive={false} //TODO: Change to look at current pathname
-                onClick={(e) => {
-                  if (!isSignedIn && item.auth) {
-                    e.preventDefault();
-                    return clerk.openSignIn();
-                  }
-                }}
+                onClick={() => {}} //TODO: Do something on click
               >
                 <Link href={item.url} className="flex items-center gap-4">
                   <item.icon />

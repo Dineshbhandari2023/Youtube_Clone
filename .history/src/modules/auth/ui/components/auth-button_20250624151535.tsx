@@ -4,11 +4,11 @@ import { UserCircleIcon } from "lucide-react";
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export const AuthButton = () => {
+  // TODO: Add different auth states
   return (
     <>
       <SignedIn>
         <UserButton />
-        {/* TODO: Add menu items for studio, and profile */}
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal">

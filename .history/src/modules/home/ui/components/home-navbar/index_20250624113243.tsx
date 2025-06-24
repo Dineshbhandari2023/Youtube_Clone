@@ -16,7 +16,7 @@ export const HomeNavBar = () => {
           <Link href="/">
             <div className="flex items-center gap-1">
               <Image alt="Logo" height={32} width={32} src={Logo} />
-              <p className="text-xl font-bold tracking-tight text-red-600">
+              <p className="text-xl font-bold tracking-tight text-red-500">
                 YouTube
               </p>
             </div>

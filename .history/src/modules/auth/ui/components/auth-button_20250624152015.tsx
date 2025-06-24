@@ -8,7 +8,7 @@ export const AuthButton = () => {
     <>
       <SignedIn>
         <UserButton />
-        {/* TODO: Add menu items for studio, and profile */}
+        {/* TODO: Add menu items for studio, profile, etc. */}
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal">
