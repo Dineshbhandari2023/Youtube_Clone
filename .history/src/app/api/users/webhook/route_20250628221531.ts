@@ -60,7 +60,7 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     // Create a new customer
     const { data } = evt;
-    await db.insert(users).values({
+    await db.create(users).values({
       clerkId: data.id,
       name: `${data.first_name} ${data.last_name}`,
       imageUrl: data.image_url,

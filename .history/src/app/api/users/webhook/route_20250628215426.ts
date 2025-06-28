@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { db } from "@/db/index";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { id } from "date-fns/locale";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
