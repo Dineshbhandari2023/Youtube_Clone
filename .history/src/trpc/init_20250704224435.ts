@@ -5,8 +5,6 @@ import { auth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { cache } from "react";
 import superjson from "superjson";
-import { ratelimit } from "@/lib/ratelimit";
-
 export const createTRPCContext = cache(async () => {
   const { userId } = await auth();
 
@@ -36,26 +34,10 @@ export const protectedProcedure = t.procedure.use(async function isAuthed(
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, ctx.clerkUserId))
-    .limit(1);
-
-  if (!user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-
-  const { success } = await ratelimit.limit(user.id);
-
-  if (!success) {
-    throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
-  }
-
+  const [] = await db.select().from(users).where(eq(users.id, ctx.clerkUserId));
   return opts.next({
     ctx: {
       ...ctx,
-      user,
     },
   });
 });

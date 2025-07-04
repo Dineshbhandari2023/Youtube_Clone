@@ -9,10 +9,10 @@ export const appRouter = createTRPCRouter({
         text: z.string(),
       })
     )
-    .query((opts) => {
+    .query(async (opts) => {
       // throw new TRPCError({ code: "BAD_REQUEST" });
       // const { userId } = await auth();
-      console.log({ dbUser: opts.ctx.user });
+      console.log({ fromContext: opts.ctx.clerkUserId });
 
       return {
         greeting: `hello ${opts.input.text}`,

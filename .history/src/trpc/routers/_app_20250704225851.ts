@@ -1,15 +1,15 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../init";
+import { baseProcedure, createTRPCRouter, protectedProcedure } from "../init";
 import { auth } from "@clerk/nextjs/server";
 // import { TRPCError } from "@trpc/server";
 export const appRouter = createTRPCRouter({
-  hello: protectedProcedure
+  hello: baseProcedure
     .input(
       z.object({
         text: z.string(),
       })
     )
-    .query((opts) => {
+    .query(async (opts) => {
       // throw new TRPCError({ code: "BAD_REQUEST" });
       // const { userId } = await auth();
       console.log({ dbUser: opts.ctx.user });
