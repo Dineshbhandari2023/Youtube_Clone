@@ -3,7 +3,6 @@
 import { HydrateClient, trpc } from "@/trpc/server";
 import { PageClient } from "./client";
 import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 
 export default async function Home() {
   // const { data } = trpc.hello.useQuery({ text: "Dinesh Bhandari" });
@@ -12,13 +11,11 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <Suspense fallback={<p>loading...</p>}>
-        <ErrorBoundary fallback={<p>Error...</p>}>
-          <div>
-            <h1>I will load videos here in future!</h1>
-            <PageClient />
-          </div>
-        </ErrorBoundary>
+      <Suspense>
+        <div>
+          <h1>I will load videos here in future!</h1>
+          <PageClient />
+        </div>
       </Suspense>
     </HydrateClient>
   );

@@ -13,7 +13,7 @@ export default async function Home() {
   return (
     <HydrateClient>
       <Suspense fallback={<p>loading...</p>}>
-        <ErrorBoundary fallback={<p>Error...</p>}>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <div>
             <h1>I will load videos here in future!</h1>
             <PageClient />
