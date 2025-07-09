@@ -32,7 +32,7 @@ async function main() {
     }));
 
     await db.insert(categories).values(values);
-    console.log("categories seeded successfully!");
+    console.log("categories seeded succesfully!");
   } catch (error) {
     console.error("Error Seeding categories:", error);
     process.exit(1);

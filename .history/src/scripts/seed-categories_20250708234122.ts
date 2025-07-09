@@ -1,6 +1,3 @@
-import { db } from "@/db";
-import { categories } from "@/db/schema";
-
 // TODO: Create a script to seed the categories
 const categoriesNames = [
   "Cars and vehicles",
@@ -26,17 +23,8 @@ async function main() {
   console.log("Seeding categories...");
 
   try {
-    const values = categoriesNames.map((name) => ({
-      name,
-      description: `videos related to ${name.toLowerCase()}`,
-    }));
-
-    await db.insert(categories).values(values);
-    console.log("categories seeded successfully!");
   } catch (error) {
     console.error("Error Seeding categories:", error);
     process.exit(1);
   }
 }
-
-main();

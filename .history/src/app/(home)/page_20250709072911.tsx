@@ -1,20 +1,20 @@
 // import { trpc } from "@/trpc/client";
 
-import HomeView from "@/modules/home/ui/views/home-view";
 import { HydrateClient, trpc } from "@/trpc/server";
 export const dynamic = "force-dynamic";
 
 interface pageProps {
-  searchParams: Promise<{ categoryId?: string }>;
+  searchParams: Promise<{ categoryID?: string }>;
 }
 
-const Page = async ({ searchParams }: pageProps) => {
-  const { categoryId } = await searchParams;
+const Page = ({ searchParams }: pageProps) => {
+  // const { data } = trpc.hello.useQuery({ text: "Dinesh Bhandari" });
+  // const data = await trpc.hello({ text: "Namaste! Dinesh Bhandari" });
   void trpc.categories.getMany.prefetch();
 
   return (
     <HydrateClient>
-      <HomeView categoryId={categoryId} />
+      <HomeView />
     </HydrateClient>
   );
 };
