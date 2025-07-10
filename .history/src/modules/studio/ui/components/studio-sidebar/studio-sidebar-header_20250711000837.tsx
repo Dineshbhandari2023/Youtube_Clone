@@ -53,7 +53,7 @@ export const StudioSidebarHeader = () => {
           className="size-[112px] hover:opacity-80 transition-opacity"
         />
       </Link>
-      <div className="flex flex-col items-center mt-2 gap-y-2">
+      <div className="flex flex-col items-center mt-2 gap-y-1">
         <p className="text-sm">Your Profile</p>
         <p className="text-xs">{user.fullName}</p>
       </div>

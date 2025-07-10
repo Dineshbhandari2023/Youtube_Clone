@@ -25,19 +25,6 @@ interface UserAvatarProps extends VariantProps<typeof avatarVariants> {
   onClick?: () => void;
 }
 
-export const UserAvatar = ({
-  imageUrl,
-  name,
-  size,
-  className = "",
-  onClick,
-}: UserAvatarProps) => {
-  return (
-    <Avatar
-      className={cn(avatarVariants({ size, className }))}
-      onClick={onClick}
-    >
-      <AvatarImage src={imageUrl} alt={name} />
-    </Avatar>
-  );
+export const AvatarHero = () => {
+  return <div></div>;
 };
