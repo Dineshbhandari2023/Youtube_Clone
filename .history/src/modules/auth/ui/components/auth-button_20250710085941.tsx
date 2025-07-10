@@ -8,16 +8,15 @@ export const AuthButton = () => {
     <>
       <SignedIn>
         <UserButton>
-          {/* TODO: Add user profile menu button */}
           <UserButton.MenuItems>
             <UserButton.Link
               label="Studio"
               href="/studio"
               labelIcon={<ClapperboardIcon className="size-4" />}
             />
-            <UserButton.Action label="manageAccount" />
           </UserButton.MenuItems>
         </UserButton>
+        {/* TODO: Add menu items for studio, and profile */}
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal">
