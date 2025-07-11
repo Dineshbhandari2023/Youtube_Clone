@@ -23,10 +23,6 @@ export const users = pgTable(
   (t) => [uniqueIndex("clerk_id_idx").on(t.clerkId)]
 );
 
-export const userRelations = relations(users, ({ many }) => ({
-  videos: many(videos),
-}));
-
 export const categories = pgTable(
   "categories",
   {
@@ -39,10 +35,6 @@ export const categories = pgTable(
   (t) => [uniqueIndex("name_idx").on(t.name)]
 );
 
-export const categoryRelations = relations(users, ({ many }) => ({
-  videos: many(videos),
-}));
-
 export const videos = pgTable("videos", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
@@ -52,9 +44,6 @@ export const videos = pgTable("videos", {
       onDelete: "cascade",
     })
     .notNull(),
-  categoryId: uuid("category_id").references(() => categories.id, {
-    onDelete: "set null",
-  }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
