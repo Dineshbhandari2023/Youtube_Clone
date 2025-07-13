@@ -15,18 +15,11 @@ export const studioRouter = createTRPCRouter({
           })
           .nullish(),
         limit: z.number().min(1).max(100),
-        direction: z.enum(["asc", "desc"]).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
       const { cursor, limit } = input;
       const { id: userId } = ctx.user;
-      console.log(
-        "Executing studio.getMany with input:",
-        input,
-        "userId:",
-        ctx.user.id
-      );
       const data = await db
         .select()
         .from(videos)
@@ -51,18 +44,7 @@ export const studioRouter = createTRPCRouter({
       const hasMore = data.length > limit;
       //   Remove the last item if there is more data
       const items = hasMore ? data.slice(0, -1) : data;
-      //   Set the next cursor to the last item if there is more data\
-      const lastItem = items[items.length - 1];
-      const nextCursor = hasMore
-        ? {
-            id: lastItem.id,
-            updatedAt: lastItem.updatedAt,
-          }
-        : null;
 
-      return {
-        items,
-        nextCursor,
-      };
+      return data;
     }),
 });

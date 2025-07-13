@@ -6,6 +6,7 @@ import React from "react";
 const page = async () => {
   void trpc.studio.getMany.prefetchInfinite({
     limit: DEFAULT_LIMIT,
+    cursor: null,
   });
 
   return (

@@ -15,18 +15,11 @@ export const studioRouter = createTRPCRouter({
           })
           .nullish(),
         limit: z.number().min(1).max(100),
-        direction: z.enum(["asc", "desc"]).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
       const { cursor, limit } = input;
       const { id: userId } = ctx.user;
-      console.log(
-        "Executing studio.getMany with input:",
-        input,
-        "userId:",
-        ctx.user.id
-      );
       const data = await db
         .select()
         .from(videos)
@@ -60,9 +53,6 @@ export const studioRouter = createTRPCRouter({
           }
         : null;
 
-      return {
-        items,
-        nextCursor,
-      };
+      return data;
     }),
 });

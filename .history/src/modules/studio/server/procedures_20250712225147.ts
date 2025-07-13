@@ -15,7 +15,6 @@ export const studioRouter = createTRPCRouter({
           })
           .nullish(),
         limit: z.number().min(1).max(100),
-        direction: z.enum(["asc", "desc"]).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -32,7 +31,7 @@ export const studioRouter = createTRPCRouter({
         .from(videos)
         .where(
           and(
-            eq(videos.userId, userId),
+            eq(videos.userId, ctx.user.id),
             cursor
               ? or(
                   lt(videos.updatedAt, cursor.updatedAt),
