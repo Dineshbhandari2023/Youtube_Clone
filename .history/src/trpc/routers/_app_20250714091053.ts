@@ -6,7 +6,7 @@ import { videosRouter } from "@/modules/videos/server/procedures";
 
 // import { TRPCError } from "@trpc/server";
 export const appRouter = createTRPCRouter({
-  videos: videosRouter,
+  video: videosRouter,
   studio: studioRouter,
   categories: categoriesRouter,
 });
