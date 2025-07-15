@@ -13,6 +13,7 @@ export const StudioUploadModal = () => {
       toast.success("Video created");
       utils.studio.getMany.invalidate({
         limit: DEFAULT_LIMIT,
+        cursor: null,
       });
     },
     onError: (error) => {
