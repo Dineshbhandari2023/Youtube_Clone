@@ -67,8 +67,8 @@ const VideosSectionSuspense = () => {
                     <TableCell>Status</TableCell>
                     <TableCell>Date</TableCell>
                     <TableCell className="text-right">Views</TableCell>
-                    <TableCell className="text-right">Comments</TableCell>
-                    <TableCell className="text-right pr-6">Likes</TableCell>
+                    <TableCell>Comments</TableCell>
+                    <TableCell>Likes</TableCell>
                   </TableRow>
                 </Link>
               ))}

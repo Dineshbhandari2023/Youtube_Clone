@@ -11,10 +11,9 @@ export const StudioUploadModal = () => {
   const create = trpc.videos.create.useMutation({
     onSuccess: () => {
       toast.success("Video created");
-      //   utils.studio.getMany.invalidate({
-      //     limit: DEFAULT_LIMIT,
-      //   });
-      utils.studio.getMany.refetch({ limit: DEFAULT_LIMIT });
+      utils.studio.getMany.invalidate({
+        limit: DEFAULT_LIMIT,
+      });
     },
     onError: (error) => {
       toast.error(error.message);

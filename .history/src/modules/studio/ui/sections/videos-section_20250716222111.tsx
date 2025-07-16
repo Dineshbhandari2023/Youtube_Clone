@@ -13,8 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { pages } from "next/dist/build/templates/app-page";
-import Link from "next/link";
 
 export const VideosSection = () => {
   return (
@@ -50,29 +48,7 @@ const VideosSectionSuspense = () => {
               <TableHead className="text-right pr-6">Likes</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {videos.pages
-              .flatMap((page) => page.items)
-              .map((video) => (
-                <Link
-                  href={`/studio/videos/${video.id}`}
-                  key={video.id}
-                  legacyBehavior
-                >
-                  <TableRow className="cursor-pointer">
-                    <TableCell className="pl-6 w-[510px]">
-                      {video.title}
-                    </TableCell>
-                    <TableCell>Visibility</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell className="text-right">Views</TableCell>
-                    <TableCell className="text-right">Comments</TableCell>
-                    <TableCell className="text-right pr-6">Likes</TableCell>
-                  </TableRow>
-                </Link>
-              ))}
-          </TableBody>
+          <TableBody></TableBody>
         </Table>
       </div>
       {/* {JSON.stringify(data)} */}

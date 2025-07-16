@@ -14,7 +14,7 @@ export const StudioUploadModal = () => {
       //   utils.studio.getMany.invalidate({
       //     limit: DEFAULT_LIMIT,
       //   });
-      utils.studio.getMany.refetch({ limit: DEFAULT_LIMIT });
+      utils.studio.getMany.invalidate();
     },
     onError: (error) => {
       toast.error(error.message);
