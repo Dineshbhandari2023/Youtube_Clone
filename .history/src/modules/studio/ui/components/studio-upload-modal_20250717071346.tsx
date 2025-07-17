@@ -30,7 +30,7 @@ export const StudioUploadModal = () => {
         open={!!create.data}
         onOpenChange={() => create.reset()}
       >
-        <StudioUploader onSuccess={() => {}} />
+        <StudioUploader onSuccess={() => {}} endpoint={} />
       </ResponsiveModal>
       <Button
         variant="secondary"

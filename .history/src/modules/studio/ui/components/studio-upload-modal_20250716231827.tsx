@@ -6,7 +6,6 @@ import { DEFAULT_LIMIT } from "@/constants";
 import { trpc } from "@/trpc/client";
 import { Loader2Icon, PlusIcon } from "lucide-react";
 import { toast } from "sonner";
-import { StudioUploader } from "./studio-uploader";
 
 export const StudioUploadModal = () => {
   const utils = trpc.useUtils();
@@ -30,7 +29,7 @@ export const StudioUploadModal = () => {
         open={!!create.data}
         onOpenChange={() => create.reset()}
       >
-        <StudioUploader onSuccess={() => {}} />
+        <p>This will be an uploader</p>
       </ResponsiveModal>
       <Button
         variant="secondary"
