@@ -14,22 +14,14 @@ export const videosRouter = createTRPCRouter({
       new_asset_settings: {
         passthrough: userId,
         playback_policies: ["public"],
-        // mp4_support: "standard",
       },
-      cors_origin: "*", // TODO: In production use your own domain
     });
     const [video] = await db
       .insert(videos)
-      .values({
-        userId,
-        title: "Untitled",
-        muxStatus: "waiting",
-        muxUploadId: upload.id,
-      })
+      .values({ userId, title: "Untitled" })
       .returning();
     return {
       video: video,
-      url: upload.url,
     };
   }),
 });
