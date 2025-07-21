@@ -18,7 +18,6 @@ import Link from "next/link";
 import { VideoThumbnail } from "@/modules/videos/ui/components/video-thumbnail";
 import { snakeCaseToTitle } from "@/lib/utils";
 import { format } from "date-fns";
-import { Globe2Icon, LockIcon } from "lucide-react";
 
 export const VideosSection = () => {
   return (
@@ -84,22 +83,13 @@ const VideosSectionSuspense = () => {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        {video.visibility === "private" ? (
-                          <LockIcon className="size-4 mr-2" />
-                        ) : (
-                          <Globe2Icon className="size-4 mr-2" />
-                        )}
-                        {snakeCaseToTitle(video.visibility)}
-                      </div>
-                    </TableCell>
+                    <TableCell>Visibility</TableCell>
                     <TableCell>
                       <div className="flex items-center ">
                         {snakeCaseToTitle(video.muxStatus || "error")}
                       </div>
                     </TableCell>
-                    <TableCell className="text-sm truncate">
+                    <TableCell>
                       {format(new Date(video.createdAt), "d MMM yyyy")}
                     </TableCell>
                     <TableCell className="text-right">Views</TableCell>

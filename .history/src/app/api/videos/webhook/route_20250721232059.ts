@@ -123,17 +123,10 @@ export const POST = async (request: Request) => {
       const status = data.status;
 
       if (!assetId) {
-        return new Response("Missing asset ID", { status: 400 });
+        return new Response("Missing upload ID", { status: 400 });
       }
 
-      await db
-        .update(videos)
-        .set({
-          muxTrackId: trackId,
-          muxTrackStatus: status,
-        })
-        .where(eq(videos.muxAssetId, assetId));
-      break;
+      await db;
     }
   }
   return new Response("Webhook received", { status: 200 });

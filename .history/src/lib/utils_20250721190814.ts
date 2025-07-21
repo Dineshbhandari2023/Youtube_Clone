@@ -10,7 +10,3 @@ export const formatDuration = (duration: number) => {
   const minutes = Math.floor((duration % 3600000) / 60000);
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
-
-export const snakeCaseToTitle = (str: string) => {
-  return str.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-};

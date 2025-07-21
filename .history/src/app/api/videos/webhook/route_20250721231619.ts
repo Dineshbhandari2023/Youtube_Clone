@@ -108,31 +108,6 @@ export const POST = async (request: Request) => {
         return new Response("Missing upload ID", { status: 400 });
       }
       await db.delete(videos).where(eq(videos.muxUploadId, data.upload_id));
-
-      break;
-    }
-
-    case "video.asset.track.ready": {
-      const data = payload.data as VideoAssetTrackReadyWebhookEvent["data"] & {
-        asset_id: string;
-      };
-
-      //   Typescript incorrectly says that `data.asset_id` does not exist
-      const assetId = data.asset_id;
-      const trackId = data.id;
-      const status = data.status;
-
-      if (!assetId) {
-        return new Response("Missing asset ID", { status: 400 });
-      }
-
-      await db
-        .update(videos)
-        .set({
-          muxTrackId: trackId,
-          muxTrackStatus: status,
-        })
-        .where(eq(videos.muxAssetId, assetId));
       break;
     }
   }
