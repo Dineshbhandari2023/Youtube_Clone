@@ -84,8 +84,8 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
   const remove = trpc.videos.remove.useMutation({
     onSuccess: () => {
       utils.studio.getMany.invalidate();
-      toast.success("Video Removed Succesfully!");
-      router.push("/studio");
+      toast.success("Video Removed Succesfully!");\
+      router.push("/studio")
     },
     onError: () => {
       toast.error("Something went wrong!");
@@ -139,10 +139,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  onClick={() => remove.mutate({ id: videoId })}
-                  className="flex items-center"
-                >
+                <DropdownMenuItem className="flex items-center">
                   <TrashIcon className="size-4 mr-2" />
                   Delete
                 </DropdownMenuItem>

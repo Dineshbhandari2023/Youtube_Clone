@@ -9,7 +9,7 @@ import { mux } from "@/lib/mux";
 export const videosRouter = createTRPCRouter({
   remove: protectedProcedure
     .input(z.object({ id: z.string().uuid() }))
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
       const [removedVideo] = await db
         .delete(videos)

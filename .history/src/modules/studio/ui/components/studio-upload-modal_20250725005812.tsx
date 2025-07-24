@@ -7,7 +7,7 @@ import { trpc } from "@/trpc/client";
 import { Loader2Icon, PlusIcon } from "lucide-react";
 import { toast } from "sonner";
 import { StudioUploader } from "./studio-uploader";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 export const StudioUploadModal = () => {
   const utils = trpc.useUtils();

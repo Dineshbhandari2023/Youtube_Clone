@@ -32,8 +32,6 @@ import {
 import {
   CopyCheckIcon,
   CopyIcon,
-  Globe2Icon,
-  LockIcon,
   MoreVerticalIcon,
   TrashIcon,
 } from "lucide-react";
@@ -43,7 +41,6 @@ import { toast } from "sonner";
 import { VideoPlayer } from "@/modules/videos/ui/components/video-player";
 import Link from "next/link";
 import { snakeCaseToTitle } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 
 interface FormSectionProps {
   videoId: string;
@@ -66,7 +63,6 @@ const FormSectionSkeleton = () => {
 
 const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
   const utils = trpc.useUtils();
-  const router = useRouter();
   const [video] = trpc.studio.getOne.useSuspenseQuery({ id: videoId });
   const [categories] = trpc.categories.getMany.useSuspenseQuery();
 
@@ -75,17 +71,6 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
       utils.studio.getMany.invalidate();
       utils.studio.getOne.invalidate({ id: videoId });
       toast.success("Video Updated Succesfully!");
-    },
-    onError: () => {
-      toast.error("Something went wrong!");
-    },
-  });
-
-  const remove = trpc.videos.remove.useMutation({
-    onSuccess: () => {
-      utils.studio.getMany.invalidate();
-      toast.success("Video Removed Succesfully!");
-      router.push("/studio");
     },
     onError: () => {
       toast.error("Something went wrong!");
@@ -139,10 +124,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  onClick={() => remove.mutate({ id: videoId })}
-                  className="flex items-center"
-                >
+                <DropdownMenuItem className="flex items-center">
                   <TrashIcon className="size-4 mr-2" />
                   Delete
                 </DropdownMenuItem>
@@ -284,21 +266,15 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Visibility" />
+                        <SelectValue placeholder="Select a Category" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="public">
-                        <div className="flex items-center">
-                          <Globe2Icon className="size-4 mr-2" />
-                          Public
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="private">
-                        <div className="flex items-center">
-                          <LockIcon className="size-4 mr-2" /> Private
-                        </div>
-                      </SelectItem>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
