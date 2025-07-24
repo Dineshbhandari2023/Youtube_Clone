@@ -11,11 +11,6 @@ export const videosRouter = createTRPCRouter({
     .input(videoUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
-
-      if (!input.id) {
-        throw new TRPCError({ code: "BAD_REQUEST" });
-      }
-
       const [updatedVideo] = await db
         .update(videos)
         .set({
@@ -25,12 +20,7 @@ export const videosRouter = createTRPCRouter({
           visibility: input.visibility,
           updatedAt: new Date(),
         })
-        .where(and(eq(videos.id, input.id), eq(videos.userId, userId)))
-        .returning();
-
-      if (!updatedVideo) {
-        throw new TRPCError({ code: "NOT_FOUND" });
-      }
+        .where();
     }),
   create: protectedProcedure.mutation(async ({ ctx }) => {
     const { id: userId } = ctx.user;

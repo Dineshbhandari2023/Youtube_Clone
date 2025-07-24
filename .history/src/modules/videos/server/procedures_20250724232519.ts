@@ -9,29 +9,7 @@ import { mux } from "@/lib/mux";
 export const videosRouter = createTRPCRouter({
   update: protectedProcedure
     .input(videoUpdateSchema)
-    .mutation(async ({ ctx, input }) => {
-      const { id: userId } = ctx.user;
-
-      if (!input.id) {
-        throw new TRPCError({ code: "BAD_REQUEST" });
-      }
-
-      const [updatedVideo] = await db
-        .update(videos)
-        .set({
-          title: input.title,
-          description: input.description,
-          categoryId: input.categoryId,
-          visibility: input.visibility,
-          updatedAt: new Date(),
-        })
-        .where(and(eq(videos.id, input.id), eq(videos.userId, userId)))
-        .returning();
-
-      if (!updatedVideo) {
-        throw new TRPCError({ code: "NOT_FOUND" });
-      }
-    }),
+    .mutation(async ({ ctx, input }) => {}),
   create: protectedProcedure.mutation(async ({ ctx }) => {
     const { id: userId } = ctx.user;
 

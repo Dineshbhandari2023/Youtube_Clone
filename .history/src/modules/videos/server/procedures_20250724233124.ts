@@ -11,11 +11,6 @@ export const videosRouter = createTRPCRouter({
     .input(videoUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
-
-      if (!input.id) {
-        throw new TRPCError({ code: "BAD_REQUEST" });
-      }
-
       const [updatedVideo] = await db
         .update(videos)
         .set({

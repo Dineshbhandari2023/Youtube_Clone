@@ -81,8 +81,6 @@ export const videos = pgTable("videos", {
 });
 
 export const videoInsertSchema = createInsertSchema(videos);
-export const videoUpdateSchema = createUpdateSchema(videos);
-export const videoSelectSchema = createSelectSchema(videos);
 
 export const videoRelations = relations(videos, ({ one }) => ({
   user: one(users, {
