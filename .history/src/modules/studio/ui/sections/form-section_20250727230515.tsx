@@ -114,9 +114,9 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
 
   const generateThumbnail = trpc.videos.generateThumbnail.useMutation({
     onSuccess: () => {
-      toast.success("Thumbnail generated succesfully!", {
-        description: "Please refresh the page to see the new thumbnail.",
-      });
+      utils.studio.getMany.invalidate();
+      utils.studio.getOne.invalidate({ id: videoId });
+      toast.success("Thumbnail restored succesfully!");
     },
     onError: () => {
       toast.error("Something went wrong!");
@@ -266,9 +266,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                                 Change
                               </div>
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => generateThumbnail.mutate()}
-                            >
+                            <DropdownMenuItem>
                               <div className="flex items-center ml-2">
                                 <SparklesIcon className="size-4 mr-1" />
                                 AI-generated
