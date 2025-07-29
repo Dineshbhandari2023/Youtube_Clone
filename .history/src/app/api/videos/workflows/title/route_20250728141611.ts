@@ -13,23 +13,23 @@ export const { POST } = serve(async (context) => {
   const input = context.requestPayload as InputType;
   const { videoId, userId } = input;
 
-  const existingVideo = context.run("get-video", async () => {
-    const data = await db
+  const video = context.run("get-video", async () => {
+    const [existingVideo] = await db
       .select()
       .from(videos)
       .where(and(eq(videos.id, videoId), eq(videos.userId, userId)));
-    if (!data[0]) {
+    if (!existingVideo) {
       throw new Error("Video not found");
     }
 
-    return data[0];
+    return existingVideo;
   });
-  console.log({ existingVideo });
-  await context.run("first-step", () => {
-    console.log("First step ran");
-  });
-
-  await context.run("second-step", () => {
-    console.log("second step ran");
+  await context.run("update-video", async () => {
+    await db
+      .update(videos)
+      .set({
+        title: "Updated From Background Job",
+      })
+      .where(and(eq(videos.id, videoId), eq(videos.userId, userId)));
   });
 });

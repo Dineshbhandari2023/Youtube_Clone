@@ -14,16 +14,16 @@ export const { POST } = serve(async (context) => {
   const { videoId, userId } = input;
 
   const video = await context.run("get-video", async () => {
-    const [existingVideo] = await db
-      .select()
-      .from(videos)
-      .where(and(eq(videos.id, videoId), eq(videos.userId, userId)));
-    if (!existingVideo) {
-      throw new Error("Video not found");
-    }
+//     const [existingVideo] = await db
+//       .select()
+//       .from(videos)
+//       .where(and(eq(videos.id, videoId), eq(videos.userId, userId)));
+//     if (!existingVideo) {
+//       throw new Error("Video not found");
+//     }
 
-    return existingVideo;
-  });
+//     return existingVideo;
+//   });
   await context.run("update-video", async () => {
     await db
       .update(videos)

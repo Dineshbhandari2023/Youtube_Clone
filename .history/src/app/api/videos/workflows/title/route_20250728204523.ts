@@ -13,7 +13,7 @@ export const { POST } = serve(async (context) => {
   const input = context.requestPayload as InputType;
   const { videoId, userId } = input;
 
-  const video = await context.run("get-video", async () => {
+  const video = context.run("get-video", async () => {
     const [existingVideo] = await db
       .select()
       .from(videos)
@@ -30,6 +30,6 @@ export const { POST } = serve(async (context) => {
       .set({
         title: "Updated From Background Job",
       })
-      .where(and(eq(videos.id, video.id), eq(videos.userId, video.userId)));
+      .where(and(eq(videos.id, videoId), eq(videos.userId, userId)));
   });
 });

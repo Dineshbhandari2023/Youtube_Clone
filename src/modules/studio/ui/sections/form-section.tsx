@@ -56,7 +56,6 @@ interface FormSectionProps {
 }
 
 export const FormSection = ({ videoId }: FormSectionProps) => {
-  console.log("Form section:", videoId);
   return (
     <Suspense fallback={<FormSectionSkeleton />}>
       <ErrorBoundary fallback={<p>Error</p>}>
@@ -267,7 +266,9 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                               </div>
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => generateThumbnail.mutate()}
+                              onClick={() =>
+                                generateThumbnail.mutate({ id: videoId })
+                              }
                             >
                               <div className="flex items-center ml-2">
                                 <SparklesIcon className="size-4 mr-1" />
