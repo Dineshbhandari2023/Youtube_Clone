@@ -34,11 +34,13 @@ export const { POST } = serve(async (context) => {
     return existingVideo;
   });
 
+  const title = body.choices[0]?.message.content;
+
   const { body } = await context.api.openai.call("generate-title", {
     token: process.env.OPENAI_API_KEY!,
     operation: "chat.completions.create",
     body: {
-      model: "openai/gpt-4.1",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -53,13 +55,11 @@ export const { POST } = serve(async (context) => {
     },
   });
 
-  const title = body.choices[0]?.message.content;
-
   await context.run("update-video", async () => {
     await db
       .update(videos)
       .set({
-        title: title || video.title,
+        title: "Updated From Background Job",
       })
       .where(and(eq(videos.id, video.id), eq(videos.userId, video.userId)));
   });

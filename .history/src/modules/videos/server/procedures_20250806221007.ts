@@ -20,7 +20,7 @@ export const videosRouter = createTRPCRouter({
         .select({
           ...getTableColumns(videos),
           user: {
-            ...getTableColumns(users),
+            ...getTableColumns(videos),
           },
         })
         .from(videos)

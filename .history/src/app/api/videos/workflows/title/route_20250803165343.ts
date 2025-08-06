@@ -9,15 +9,6 @@ interface InputType {
   videoId: string;
 }
 
-const TITLE_SYSTEM_PROMPT = `Your task is to generate an SEO-focused title for a YouTube video
-based on its transcript. Please follow these guidelines:
-- Be concise but descriptive, using relevant keywords to improve discoverabilility.
-- Highlight the most complelling or unique aspect of the video content.
-- Avoid jargon or overly complex language unless it directly supports searchability.
-- Use action-oriented phrasing or clear value propositions where applicable.
-- Ensure the title is 3-8 words long and no more that 100 characters.
-- ONLY return the title as plain text. Do not add quotes or any additional formatting.`;
-
 export const { POST } = serve(async (context) => {
   const input = context.requestPayload as InputType;
   const { videoId, userId } = input;
@@ -34,32 +25,32 @@ export const { POST } = serve(async (context) => {
     return existingVideo;
   });
 
-  const { body } = await context.api.openai.call("generate-title", {
+  const generatedTitle = await context.api.openai.call("generate-title", {
     token: process.env.OPENAI_API_KEY!,
     operation: "chat.completions.create",
     body: {
-      model: "openai/gpt-4.1",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: TITLE_SYSTEM_PROMPT,
+          content: "Assistant says 'hello!'",
         },
         {
           role: "user",
-          content:
-            "Hi everyone, in this tutorial we will be building a YouTube clone",
+          content: "User shouts back 'hi!'",
         },
       ],
     },
   });
 
-  const title = body.choices[0]?.message.content;
+  // get text:
+  console.log(body.content[0].text);
 
   await context.run("update-video", async () => {
     await db
       .update(videos)
       .set({
-        title: title || video.title,
+        title: "Updated From Background Job",
       })
       .where(and(eq(videos.id, video.id), eq(videos.userId, video.userId)));
   });
