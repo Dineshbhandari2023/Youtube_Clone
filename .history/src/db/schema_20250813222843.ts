@@ -91,12 +91,12 @@ export const videoViews = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
-  (t) => [
+  (t) => {
     primaryKey({
       name: "video_views_pk",
       columns: [t.userId, t.videoId],
-    }),
-  ]
+    });
+  }
 );
 
 // User Relations

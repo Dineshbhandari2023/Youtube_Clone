@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { Relation, relations } from "drizzle-orm";
 import {
   integer,
@@ -30,6 +31,10 @@ export const users = pgTable(
   (t) => [uniqueIndex("clerk_id_idx").on(t.clerkId)]
 );
 
+export const userRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
+
 export const categories = pgTable(
   "categories",
   {
@@ -41,6 +46,10 @@ export const categories = pgTable(
   },
   (t) => [uniqueIndex("name_idx").on(t.name)]
 );
+
+export const categoryRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
 
 export const videoVisibility = pgEnum("video_visibility", [
   "private",
@@ -79,6 +88,18 @@ export const videoInsertSchema = createInsertSchema(videos);
 export const videoUpdateSchema = createUpdateSchema(videos);
 export const videoSelectSchema = createSelectSchema(videos);
 
+export const videoRelations = relations(videos, ({ one, many }) => ({
+  user: one(users, {
+    fields: [videos.userId],
+    references: [users.id],
+  }),
+  category: one(categories, {
+    fields: [videos.categoryId],
+    references: [categories.di],
+  }),
+  views: many(videoViews),
+}));
+
 export const videoViews = pgTable(
   "video_views",
   {
@@ -91,39 +112,14 @@ export const videoViews = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
-  (t) => [
+  (t) => {
     primaryKey({
       name: "video_views_pk",
       columns: [t.userId, t.videoId],
-    }),
-  ]
+    });
+  }
 );
 
-// User Relations
-export const userRelations = relations(users, ({ many }) => ({
-  videos: many(videos),
-  videoViews: many(videoViews),
-}));
-
-// Category Relations
-export const categoryRelations = relations(categories, ({ many }) => ({
-  videos: many(videos),
-}));
-
-// Video Relations
-export const videoRelations = relations(videos, ({ one, many }) => ({
-  user: one(users, {
-    fields: [videos.userId],
-    references: [users.id],
-  }),
-  category: one(categories, {
-    fields: [videos.categoryId],
-    references: [categories.id],
-  }),
-  views: many(videoViews),
-}));
-
-//Video Views relations
 export const VideoViewRelations = relations(videoViews, ({ one }) => ({
   users: one(users, {
     fields: [videoViews.userId],

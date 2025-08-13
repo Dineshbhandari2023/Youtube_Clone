@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { Relation, relations } from "drizzle-orm";
 import {
   integer,
@@ -41,6 +42,10 @@ export const categories = pgTable(
   },
   (t) => [uniqueIndex("name_idx").on(t.name)]
 );
+
+export const categoryRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
 
 export const videoVisibility = pgEnum("video_visibility", [
   "private",
@@ -91,23 +96,18 @@ export const videoViews = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
-  (t) => [
+  (t) => {
     primaryKey({
       name: "video_views_pk",
       columns: [t.userId, t.videoId],
-    }),
-  ]
+    });
+  }
 );
 
 // User Relations
 export const userRelations = relations(users, ({ many }) => ({
   videos: many(videos),
   videoViews: many(videoViews),
-}));
-
-// Category Relations
-export const categoryRelations = relations(categories, ({ many }) => ({
-  videos: many(videos),
 }));
 
 // Video Relations

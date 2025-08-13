@@ -28,14 +28,9 @@ export const VideoSection = ({ videoId }: VideoSectionProps) => {
 
 const VideoSectionSuspense = ({ videoId }: VideoSectionProps) => {
   const { isSignedIn } = useAuth();
-  const utils = trpc.useUtils();
   const [video] = trpc.videos.getOne.useSuspenseQuery({ id: videoId });
 
-  const createViews = trpc.videosViews.create.useMutation({
-    onSuccess: () => {
-      utils.videos.getOne.invalidate({ id: videoId });
-    },
-  });
+  const createViews = trpc.videosViews.create.useMutation();
 
   const handlePlay = () => {
     if (!isSignedIn) return;
@@ -53,7 +48,7 @@ const VideoSectionSuspense = ({ videoId }: VideoSectionProps) => {
       >
         <VideoPlayer
           autoPlay
-          onPlay={handlePlay}
+          onPlay={() => {}}
           playbackId={video.muxPlaybackId}
           thumbnailUrl={video.thumbnailUrl}
         />

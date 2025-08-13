@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { Relation, relations } from "drizzle-orm";
 import {
   integer,
@@ -30,6 +31,10 @@ export const users = pgTable(
   (t) => [uniqueIndex("clerk_id_idx").on(t.clerkId)]
 );
 
+export const userRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
+
 export const categories = pgTable(
   "categories",
   {
@@ -41,6 +46,10 @@ export const categories = pgTable(
   },
   (t) => [uniqueIndex("name_idx").on(t.name)]
 );
+
+export const categoryRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
 
 export const videoVisibility = pgEnum("video_visibility", [
   "private",
@@ -79,38 +88,6 @@ export const videoInsertSchema = createInsertSchema(videos);
 export const videoUpdateSchema = createUpdateSchema(videos);
 export const videoSelectSchema = createSelectSchema(videos);
 
-export const videoViews = pgTable(
-  "video_views",
-  {
-    userId: uuid("user_id")
-      .references(() => users.id, { onDelete: "cascade" })
-      .notNull(),
-    videoId: uuid("video_id")
-      .references(() => videos.id, { onDelete: "cascade" })
-      .notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at").defaultNow().notNull(),
-  },
-  (t) => [
-    primaryKey({
-      name: "video_views_pk",
-      columns: [t.userId, t.videoId],
-    }),
-  ]
-);
-
-// User Relations
-export const userRelations = relations(users, ({ many }) => ({
-  videos: many(videos),
-  videoViews: many(videoViews),
-}));
-
-// Category Relations
-export const categoryRelations = relations(categories, ({ many }) => ({
-  videos: many(videos),
-}));
-
-// Video Relations
 export const videoRelations = relations(videos, ({ one, many }) => ({
   user: one(users, {
     fields: [videos.userId],
@@ -123,7 +100,26 @@ export const videoRelations = relations(videos, ({ one, many }) => ({
   views: many(videoViews),
 }));
 
-//Video Views relations
+export const videoViews = pgTable(
+  "video_views",
+  {
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    videoId: uuid("video_id")
+      .references(() => videos.id, { onDelete: "cascade" })
+      .notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => {
+    primaryKey({
+      name: "video_views_pk",
+      columns: [t.userId, t.videoId],
+    });
+  }
+);
+
 export const VideoViewRelations = relations(videoViews, ({ one }) => ({
   users: one(users, {
     fields: [videoViews.userId],

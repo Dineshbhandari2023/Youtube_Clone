@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { Relation, relations } from "drizzle-orm";
 import {
   integer,
@@ -91,12 +92,12 @@ export const videoViews = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
-  (t) => [
+  (t) => {
     primaryKey({
       name: "video_views_pk",
       columns: [t.userId, t.videoId],
-    }),
-  ]
+    });
+  }
 );
 
 // User Relations
@@ -106,7 +107,7 @@ export const userRelations = relations(users, ({ many }) => ({
 }));
 
 // Category Relations
-export const categoryRelations = relations(categories, ({ many }) => ({
+export const categoryRelations = relations(users, ({ many }) => ({
   videos: many(videos),
 }));
 
