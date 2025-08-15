@@ -126,7 +126,6 @@ export const videoReactions = pgTable(
 export const userRelations = relations(users, ({ many }) => ({
   videos: many(videos),
   videoViews: many(videoViews),
-  videoReactions: many(videoReactions),
 }));
 
 // Category Relations
@@ -145,7 +144,6 @@ export const videoRelations = relations(videos, ({ one, many }) => ({
     references: [categories.id],
   }),
   views: many(videoViews),
-  reactions: many(videoReactions),
 }));
 
 //Video Views relations

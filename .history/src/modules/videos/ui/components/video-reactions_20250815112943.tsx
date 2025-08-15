@@ -40,8 +40,6 @@ export const VideoReactions = ({
   return (
     <div className="flex items-center flex-none">
       <Button
-        onClick={() => like.mutate({ videoId })}
-        disabled={like.isPending || dislike.isPending}
         variant="secondary"
         className="rounded-l-full rounded-r-none gap-2 pr-4"
       >
@@ -52,8 +50,6 @@ export const VideoReactions = ({
       </Button>
       <Separator orientation="vertical" className="h-7" />
       <Button
-        onClick={() => dislike.mutate({ videoId })}
-        disabled={like.isPending || dislike.isPending}
         variant="secondary"
         className="rounded-l-none rounded-r-full pl-3"
       >

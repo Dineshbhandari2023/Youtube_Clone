@@ -3,14 +3,11 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { VideoGetOneOutput } from "../../types";
-import { useClerk } from "@clerk/nextjs";
-import { trpc } from "@/trpc/client";
-import { toast } from "sonner";
 
 interface VideoReactionsProps {
   videoId: string;
   likes: number;
-  dislikes: number;
+  dislike: number;
   viewerReaction: VideoGetOneOutput["viewerReaction"];
 }
 
@@ -18,30 +15,12 @@ interface VideoReactionsProps {
 export const VideoReactions = ({
   videoId,
   likes,
-  dislikes,
+  dislike,
   viewerReaction,
 }: VideoReactionsProps) => {
-  const clerk = useClerk();
-  const utils = trpc.useUtils();
-  const like = trpc.videoReactions.like.useMutation({
-    onSuccess: () => {
-      utils.videos.getOne.invalidate({ id: videoId });
-      // TODO: Invalidate "Liked" playlist
-    },
-    onError: (error) => {
-      toast.error("Something went wrong");
-      if (error.data?.code === "UNAUTHORIZED") {
-        clerk.openSignIn();
-      }
-    },
-  });
-  const dislike = trpc.videoReactions.dislike.useMutation();
-
   return (
     <div className="flex items-center flex-none">
       <Button
-        onClick={() => like.mutate({ videoId })}
-        disabled={like.isPending || dislike.isPending}
         variant="secondary"
         className="rounded-l-full rounded-r-none gap-2 pr-4"
       >
@@ -52,15 +31,13 @@ export const VideoReactions = ({
       </Button>
       <Separator orientation="vertical" className="h-7" />
       <Button
-        onClick={() => dislike.mutate({ videoId })}
-        disabled={like.isPending || dislike.isPending}
         variant="secondary"
         className="rounded-l-none rounded-r-full pl-3"
       >
         <ThumbsDownIcon
           className={cn("size-5", viewerReaction === "dislike" && "fill-black")}
         />
-        {dislikes}
+        {dislike}
       </Button>
     </div>
   );

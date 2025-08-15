@@ -101,7 +101,7 @@ export const videoViews = pgTable(
 
 export const reactionType = pgEnum("reaction_type", ["like", "dislike"]);
 
-export const videoReactions = pgTable(
+export const VideoReactions = pgTable(
   "video_reactions",
   {
     userId: uuid("user_id")
@@ -110,13 +110,12 @@ export const videoReactions = pgTable(
     videoId: uuid("video_id")
       .references(() => videos.id, { onDelete: "cascade" })
       .notNull(),
-    type: reactionType("type").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (t) => [
     primaryKey({
-      name: "video_reactions_pk",
+      name: "video_views_pk",
       columns: [t.userId, t.videoId],
     }),
   ]
@@ -126,7 +125,6 @@ export const videoReactions = pgTable(
 export const userRelations = relations(users, ({ many }) => ({
   videos: many(videos),
   videoViews: many(videoViews),
-  videoReactions: many(videoReactions),
 }));
 
 // Category Relations
@@ -145,7 +143,6 @@ export const videoRelations = relations(videos, ({ one, many }) => ({
     references: [categories.id],
   }),
   views: many(videoViews),
-  reactions: many(videoReactions),
 }));
 
 //Video Views relations
@@ -159,22 +156,6 @@ export const VideoViewRelations = relations(videoViews, ({ one }) => ({
     references: [videos.id],
   }),
 }));
-
-//Video relation relations
-export const VideoRelationRelations = relations(videoReactions, ({ one }) => ({
-  users: one(users, {
-    fields: [videoReactions.userId],
-    references: [users.id],
-  }),
-  videos: one(videos, {
-    fields: [videoReactions.videoId],
-    references: [videos.id],
-  }),
-}));
-
-export const videoReactionSelectSchema = createSelectSchema(videoReactions);
-export const videoReactionInsertSchema = createInsertSchema(videoReactions);
-export const videoReactionUpdateSchema = createUpdateSchema(videoReactions);
 
 export const videoViewsSelectSchema = createSelectSchema(videoViews);
 export const videoViewsInsertSchema = createInsertSchema(videoViews);

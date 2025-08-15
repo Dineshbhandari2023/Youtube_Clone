@@ -52,8 +52,6 @@ export const VideoReactions = ({
       </Button>
       <Separator orientation="vertical" className="h-7" />
       <Button
-        onClick={() => dislike.mutate({ videoId })}
-        disabled={like.isPending || dislike.isPending}
         variant="secondary"
         className="rounded-l-none rounded-r-full pl-3"
       >

@@ -45,7 +45,6 @@ export const videosRouter = createTRPCRouter({
       );
 
       const [existingVideo] = await db
-        .with(viewerReactions)
         .select({
           ...getTableColumns(videos),
           user: {
@@ -71,8 +70,7 @@ export const videosRouter = createTRPCRouter({
         .from(videos)
         .innerJoin(users, eq(videos.userId, users.id))
         .leftJoin(viewerReactions, eq(viewerReactions.videoId, videos.id))
-        .where(eq(videos.id, input.id))
-        .groupBy(videos.id, users.id, viewerReactions.type);
+        .where(eq(videos.id, input.id));
 
       if (!existingVideo) {
         throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });

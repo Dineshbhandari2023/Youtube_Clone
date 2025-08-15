@@ -101,7 +101,7 @@ export const videoViews = pgTable(
 
 export const reactionType = pgEnum("reaction_type", ["like", "dislike"]);
 
-export const videoReactions = pgTable(
+export const VideoReactions = pgTable(
   "video_reactions",
   {
     userId: uuid("user_id")
@@ -126,7 +126,6 @@ export const videoReactions = pgTable(
 export const userRelations = relations(users, ({ many }) => ({
   videos: many(videos),
   videoViews: many(videoViews),
-  videoReactions: many(videoReactions),
 }));
 
 // Category Relations
@@ -145,7 +144,6 @@ export const videoRelations = relations(videos, ({ one, many }) => ({
     references: [categories.id],
   }),
   views: many(videoViews),
-  reactions: many(videoReactions),
 }));
 
 //Video Views relations
@@ -161,20 +159,16 @@ export const VideoViewRelations = relations(videoViews, ({ one }) => ({
 }));
 
 //Video relation relations
-export const VideoRelationRelations = relations(videoReactions, ({ one }) => ({
+export const VideoRelationRelations = relations(VideoReactions, ({ one }) => ({
   users: one(users, {
-    fields: [videoReactions.userId],
+    fields: [VideoReactions.userId],
     references: [users.id],
   }),
   videos: one(videos, {
-    fields: [videoReactions.videoId],
+    fields: [VideoReactions.videoId],
     references: [videos.id],
   }),
 }));
-
-export const videoReactionSelectSchema = createSelectSchema(videoReactions);
-export const videoReactionInsertSchema = createInsertSchema(videoReactions);
-export const videoReactionUpdateSchema = createUpdateSchema(videoReactions);
 
 export const videoViewsSelectSchema = createSelectSchema(videoViews);
 export const videoViewsInsertSchema = createInsertSchema(videoViews);
