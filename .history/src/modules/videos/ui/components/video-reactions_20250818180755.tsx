@@ -11,7 +11,7 @@ interface VideoReactionsProps {
   videoId: string;
   likes: number;
   dislikes: number;
-  viewerReaction: VideoGetOneOutput["viewerReactions"];
+  viewerReactions: VideoGetOneOutput["viewerReactions"];
 }
 
 // TODO: Properly implement the video reactions
@@ -19,7 +19,7 @@ export const VideoReactions = ({
   videoId,
   likes,
   dislikes,
-  viewerReaction,
+  viewerReactions,
 }: VideoReactionsProps) => {
   const clerk = useClerk();
   const utils = trpc.useUtils();
@@ -46,7 +46,7 @@ export const VideoReactions = ({
         className="rounded-l-full rounded-r-none gap-2 pr-4"
       >
         <ThumbsUpIcon
-          className={cn("size-5", viewerReaction === "like" && "fill-black")}
+          className={cn("size-5", viewerReactions === "like" && "fill-black")}
         />
         {likes}
       </Button>

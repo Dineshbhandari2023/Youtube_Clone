@@ -13,16 +13,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "@/trpc/init";
-import {
-  eq,
-  and,
-  or,
-  lt,
-  desc,
-  getTableColumns,
-  inArray,
-  isNotNull,
-} from "drizzle-orm";
+import { eq, and, or, lt, desc, getTableColumns, inArray } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { mux } from "@/lib/mux";
 import { UTApi } from "uploadthing/server";
@@ -67,9 +58,6 @@ export const videosRouter = createTRPCRouter({
           ...getTableColumns(videos),
           user: {
             ...getTableColumns(users),
-            viewerSubscribed: isNotNull(viewerSubscriptions.viewerId).mapWith(
-              Boolean
-            ),
           },
           viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
           likeCount: db.$count(

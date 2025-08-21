@@ -30,25 +30,18 @@ export const users = pgTable(
   (t) => [uniqueIndex("clerk_id_idx").on(t.clerkId)]
 );
 
-export const subscriptions = pgTable(
-  "subscriptions",
-  {
-    viewerId: uuid("viewer_id")
-      .references(() => users.id, { onDelete: "cascade" })
-      .notNull(),
-    creatorId: uuid("creator_id")
-      .references(() => users.id, { onDelete: "cascade" })
-      .notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at").defaultNow().notNull(),
-  },
-  (t) => [
-    primaryKey({
-      name: "subscriptions_pk",
-      columns: [t.viewerId, t.creatorId],
-    }),
-  ]
-);
+export const subscriptions = pgTable("subscriptions", {
+  viewerId: uuid("viewer_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  creatorId: uuid("creator_id")
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 
 export const subscriptionRelations = relations(subscriptions, ({ one }) => ({
   viewerId: one(users, {
@@ -57,7 +50,7 @@ export const subscriptionRelations = relations(subscriptions, ({ one }) => ({
     relationName: "subscriptions_viewer_id_fkey",
   }),
   creatorId: one(users, {
-    fields: [subscriptions.creatorId],
+    fields: [subscriptions.viewerId],
     references: [users.id],
     relationName: "subscriptions_creator_id_fkey",
   }),
@@ -160,12 +153,6 @@ export const userRelations = relations(users, ({ many }) => ({
   videos: many(videos),
   videoViews: many(videoViews),
   videoReactions: many(videoReactions),
-  subscriptions: many(subscriptions, {
-    relationName: "subscriptions_viewer_id_fkey",
-  }),
-  subscribers: many(subscriptions, {
-    relationName: "subscriptions_creator_id_fkey",
-  }),
 }));
 
 // Category Relations

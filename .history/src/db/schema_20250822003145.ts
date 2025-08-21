@@ -37,7 +37,9 @@ export const subscriptions = pgTable(
       .references(() => users.id, { onDelete: "cascade" })
       .notNull(),
     creatorId: uuid("creator_id")
-      .references(() => users.id, { onDelete: "cascade" })
+      .references(() => users.id, {
+        onDelete: "cascade",
+      })
       .notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -57,7 +59,7 @@ export const subscriptionRelations = relations(subscriptions, ({ one }) => ({
     relationName: "subscriptions_viewer_id_fkey",
   }),
   creatorId: one(users, {
-    fields: [subscriptions.creatorId],
+    fields: [subscriptions.viewerId],
     references: [users.id],
     relationName: "subscriptions_creator_id_fkey",
   }),

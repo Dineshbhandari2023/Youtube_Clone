@@ -11,7 +11,7 @@ interface VideoReactionsProps {
   videoId: string;
   likes: number;
   dislikes: number;
-  viewerReaction: VideoGetOneOutput["viewerReactions"];
+  viewerReaction: VideoGetOneOutput[];
 }
 
 // TODO: Properly implement the video reactions
